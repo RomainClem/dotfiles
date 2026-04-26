@@ -1,0 +1,9 @@
+{{- if ne .chezmoi.os "windows" }}
+Documents/
+AppData/
+winget-packages.json
+{{- end }}
+
+{{- if ne .chezmoi.os "linux" }}
+.zshrc
+{{- end }}
