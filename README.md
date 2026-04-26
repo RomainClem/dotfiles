@@ -47,12 +47,38 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 
 ## Managing Your Dotfiles
 
+> ⚠️ **Important: chezmoi reads from its own source directory, not this repo.**
+>
+> When you run `chezmoi init`, chezmoi clones this repo into its **source directory**:
+> - **Windows:** `%USERPROFILE%\.local\share\chezmoi`
+> - **Linux/WSL:** `~/.local/share/chezmoi`
+>
+> Editing files in a separate working clone of this repo (e.g. `~/Documents/WorkSpace/Repos/dotfiles`) has **no effect** on `chezmoi apply` until those changes reach the source directory.
+
+### Recommended workflow
+
+Always edit through chezmoi so you're working in the source directory:
+
 ```bash
-chezmoi edit ~/.zshrc          # Edit a managed file
-chezmoi diff                   # Preview pending changes
-chezmoi apply                  # Apply changes to home directory
-chezmoi cd                     # cd into the source directory
-chezmoi update                 # Pull latest from git and apply
+chezmoi cd                     # jump into the source directory
+chezmoi edit ~/.zshrc          # edit a managed file in $EDITOR
+chezmoi diff                   # preview pending changes vs. home
+chezmoi apply                  # apply changes to home directory
+```
+
+Then commit and push from the source directory:
+
+```bash
+chezmoi cd
+git add -A && git commit -m "tweak zshrc"
+git push
+exit                           # leave the chezmoi shell
+```
+
+### Pulling changes on another machine
+
+```bash
+chezmoi update                 # git pull in source dir + apply
 ```
 
 ### Re-export winget packages
@@ -62,9 +88,19 @@ After installing new apps on Windows, update the package list:
 ```powershell
 chezmoi cd
 winget export -o winget-packages.json
-git add winget-packages.json && git commit -m "update winget packages"
+git add winget-packages.json; git commit -m "update winget packages"; git push
 chezmoi apply
 ```
+
+### Working from a separate clone (optional)
+
+If you prefer to keep your working clone elsewhere (e.g. under `~/Documents/WorkSpace/Repos/dotfiles`), point chezmoi at it instead of the default source directory by adding to `~/.config/chezmoi/chezmoi.toml`:
+
+```toml
+sourceDir = 'C:\Users\YOU\Documents\WorkSpace\Repos\dotfiles'
+```
+
+Otherwise, edits made outside the source directory must be `git push`ed and then pulled with `chezmoi update` before `chezmoi apply` will see them.
 
 ## What's Configured
 

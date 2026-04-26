@@ -2,8 +2,10 @@
 Documents/
 AppData/
 winget-packages.json
+*.ps1
 {{- end }}
 
 {{- if ne .chezmoi.os "linux" }}
 .zshrc
+*.sh
 {{- end }}
