@@ -42,3 +42,11 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
 else
     echo "[SKIP] zsh-syntax-highlighting is already installed"
 fi
+
+# Install zsh-autocomplete
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autocomplete" ]; then
+    echo "[INSTALL] zsh-autocomplete..."
+    git clone --depth 1 https://github.com/marlonrichert/zsh-autocomplete "$ZSH_CUSTOM/plugins/zsh-autocomplete"
+else
+    echo "[SKIP] zsh-autocomplete is already installed"
+fi

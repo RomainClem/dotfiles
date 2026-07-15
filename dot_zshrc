@@ -7,7 +7,7 @@ alias wi="cd ~/WorkSpace/Repos/WebInterface"
 ZSH_THEME=""
 
 #Plugins
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
 source $ZSH/oh-my-zsh.sh
 
 #Exports
@@ -20,9 +20,18 @@ export WINDOWS_HOST_IP=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}
 # export APIProxy__Target="https://${WINDOWS_HOST_IP}:7120"
 export SSL_CERT_DIR=$HOME/.aspnet/dev-certs/trust:/usr/lib/ssl/certs
 
+# zsh options
+setopt hist_ignore_all_dups
+
 #Star Ship
 eval "$(starship init zsh)"
 
-# bun                    
+# bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+#Claude Code
+export CLAUDE_CODE_TMUX_TRUECOLOR=1
+
+# Local bin
+[ -s "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"

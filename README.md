@@ -33,7 +33,7 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 
 | Script | What it does |
 |---|---|
-| `run_once_01-install-packages.sh` | Installs zsh, Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting |
+| `run_once_01-install-packages.sh` | Installs zsh, Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete |
 | `run_once_02-install-tools.sh` | Installs Starship, NVM, Bun |
 
 ## Config Files Placed by Chezmoi
@@ -41,7 +41,7 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 | Source (this repo) | Target | OS |
 |---|---|---|
 | `dot_zshrc` | `~/.zshrc` | Linux |
-| `dot_config/starship.toml` | `~/.config/starship.toml` | Both |
+| `private_dot_config/starship.toml` | `~/.config/starship.toml` | Both |
 | `Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | Windows |
 | `AppData/.../LocalState/settings.json` | Windows Terminal settings | Windows |
 
@@ -105,13 +105,13 @@ Otherwise, edits made outside the source directory must be `git push`ed and then
 ## What's Configured
 
 ### ZSH (`dot_zshrc`)
-- Oh My Zsh with **git**, **zsh-autosuggestions**, and **zsh-syntax-highlighting** plugins
+- Oh My Zsh with **git**, **zsh-autosuggestions**, **zsh-syntax-highlighting**, and **zsh-autocomplete** plugins
 - NVM auto-load for Node.js version management
 - Bun runtime on PATH
 - `WINDOWS_HOST_IP` extraction for WSL interop
 - ASP.NET dev certificate trust via `SSL_CERT_DIR`
 
-### Starship (`dot_config/starship.toml`)
+### Starship (`private_dot_config/starship.toml`)
 - Gruvbox Dark color palette
 - OS, shell, username, hostname, directory, and git status indicators
 - Language version detection: Node.js, C/C++, Rust, Go, PHP, Java, Kotlin, Haskell, Python
