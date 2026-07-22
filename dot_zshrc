@@ -35,3 +35,6 @@ export CLAUDE_CODE_TMUX_TRUECOLOR=1
 
 # Local bin
 [ -s "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
+
+# mise (runtime & tool manager, e.g. neovim)
+command -v mise &>/dev/null && eval "$(mise activate zsh)"

@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+# Re-runs whenever the mise config changes (e.g. a bumped tool version).
+# mise config hash: {{ include "private_dot_config/mise/config.toml" | sha256sum }}
+
+# Install mise if missing
+if ! command -v mise &>/dev/null && [ ! -x "$HOME/.local/bin/mise" ]; then
+    echo "[INSTALL] mise..."
+    curl -fsSL https://mise.run | sh
+else
+    echo "[SKIP] mise is already installed"
+fi
+
+MISE_BIN="$(command -v mise || echo "$HOME/.local/bin/mise")"
+
+# Install/sync all tools declared in ~/.config/mise/config.toml (neovim, ...)
+echo "[INSTALL] Syncing mise tools..."
+"$MISE_BIN" install
