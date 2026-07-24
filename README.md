@@ -34,7 +34,8 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 | Script | What it does |
 |---|---|
 | `run_once_01-install-packages.sh` | Installs zsh, Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete |
-| `run_once_02-install-tools.sh` | Installs Starship, NVM, Bun |
+| `run_once_02-install-tools.sh` | Installs Starship, Bun |
+| `run_onchange_04-install-mise.sh.tmpl` | Installs [mise](https://mise.jdx.dev/) and syncs the tools declared in `mise/config.toml` (Node.js, Neovim); re-runs whenever that config changes |
 
 ## Config Files Placed by Chezmoi
 
@@ -42,6 +43,7 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 |---|---|---|
 | `dot_zshrc` | `~/.zshrc` | Linux |
 | `private_dot_config/starship.toml` | `~/.config/starship.toml` | Both |
+| `private_dot_config/mise/config.toml` | `~/.config/mise/config.toml` | Linux |
 | `Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | Windows |
 | `AppData/.../LocalState/settings.json` | Windows Terminal settings | Windows |
 
@@ -106,10 +108,16 @@ Otherwise, edits made outside the source directory must be `git push`ed and then
 
 ### ZSH (`dot_zshrc`)
 - Oh My Zsh with **git**, **zsh-autosuggestions**, **zsh-syntax-highlighting**, and **zsh-autocomplete** plugins
-- NVM auto-load for Node.js version management
+- [mise](https://mise.jdx.dev/) activation for runtime/tool management (Node.js, Neovim)
 - Bun runtime on PATH
 - `WINDOWS_HOST_IP` extraction for WSL interop
 - ASP.NET dev certificate trust via `SSL_CERT_DIR`
+
+### Runtime tools (`private_dot_config/mise/config.toml`)
+- **mise** manages versioned tools in one place (replaces standalone NVM):
+  - `node = "lts"` — Node.js LTS
+  - `neovim = "latest"`
+- Add a tool with `mise use -g <tool>@<version>`, or edit `config.toml`; `chezmoi apply` re-runs the install script on any change
 
 ### Starship (`private_dot_config/starship.toml`)
 - Gruvbox Dark color palette
