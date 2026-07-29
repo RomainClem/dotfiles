@@ -1,0 +1,125 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    },
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-1": ["workspace::ActivatePane", 0],
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "alt-1": ["workspace::ActivatePane", 0],
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-2": ["workspace::ActivatePane", 1],
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "alt-2": ["workspace::ActivatePane", 1],
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-3": ["workspace::ActivatePane", 2],
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "alt-3": ["workspace::ActivatePane", 2],
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-4": ["workspace::ActivatePane", 3],
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "alt-4": ["workspace::ActivatePane", 3],
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-5": ["workspace::ActivatePane", 4],
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "alt-5": ["workspace::ActivatePane", 4],
+    },
+  },
+  {
+    "bindings": {
+      "ctrl-shift-up": "vim::ResizePaneUp"
+    }
+  },
+  {
+    "context": "(VimControl && !menu) || (!Editor && !Terminal)",
+    "unbind": {
+      "ctrl-w shift-=": "vim::ResizePaneUp"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-shift-down": "vim::ResizePaneDown"
+    }
+  },
+  {
+    "context": "(VimControl && !menu) || (!Editor && !Terminal)",
+    "unbind": {
+      "ctrl-w -": "vim::ResizePaneDown"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-shift-left": "vim::ResizePaneLeft"
+    }
+  },
+  {
+    "context": "(VimControl && !menu) || (!Editor && !Terminal)",
+    "unbind": {
+      "ctrl-w shift-,": "vim::ResizePaneLeft"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-shift-right": "vim::ResizePaneRight"
+    }
+  },
+  {
+    "context": "(VimControl && !menu) || (!Editor && !Terminal)",
+    "unbind": {
+      "ctrl-w shift-.": "vim::ResizePaneRight"
+    }
+  }
+]
