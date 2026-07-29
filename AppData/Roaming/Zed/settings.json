@@ -139,5 +139,21 @@
         "after_delay": {
             "milliseconds": 1000
         }
+    },
+    "auto_install_extensions": {
+        "bicep": true,
+        "catppuccin": true,
+        "catppuccin-icons": true,
+        "csharp": true,
+        "dockerfile": true,
+        "dracula": true,
+        "git-firefly": true,
+        "html": true,
+        "http": true,
+        "log": true,
+        "powershell": true,
+        "scss": true,
+        "sql": true,
+        "xml": true
     }
 }
