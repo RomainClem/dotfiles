@@ -27,10 +27,10 @@ setopt hist_ignore_all_dups
 #Star Ship
 eval "$(starship init zsh)"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+# bun -- provided by mise, so ~/.bun/bin is deliberately NOT on PATH; having it
+# here would shadow the mise-pinned bun with the old self-upgrading curl install.
+# ~/.bun is kept only for its completion script.
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 #Claude Code
 export CLAUDE_CODE_TMUX_TRUECOLOR=1
@@ -42,3 +42,21 @@ export CLAUDE_CODE_TMUX_TRUECOLOR=1
 # Interactive shells get the real install dirs prepended ahead of the shims that
 # .zshenv puts on PATH. Non-interactive shells never read this file -- see .zshenv.
 command -v mise &>/dev/null && eval "$(mise activate zsh)"
+
+# Browser for CLIs that shell out to open a URL (rayfin login, gh auth, ...).
+# WSL has no xdg-open, and rayfin's openBrowser fires exec() without checking the
+# error, so an unset $BROWSER means sign-in hangs silently on the loopback wait.
+# Must be a bare executable path -- rayfin interpolates it as a single quoted word.
+if [ -x "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" ]; then
+    export BROWSER="/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+fi
+
+# gnome-keyring holds the rayfin token; WSL has no desktop login to unlock it, so
+# do it on the first interactive shell after each WSL restart. The guard needs -f
+# (comm is capped at 15 chars, "gnome-keyring-daemon" is 20, so -x never matches)
+# and the [g] bracket so the pattern doesn't match this shell's own command line.
+if [[ -o interactive ]] && ! pgrep -u "$USER" -f '[g]nome-keyring-daemon' >/dev/null; then
+    read -rs "pw?Unlock keyring: "; echo
+    printf '%s' "$pw" | gnome-keyring-daemon --unlock --components=secrets
+    unset pw
+fi

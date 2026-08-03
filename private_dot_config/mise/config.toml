@@ -3,6 +3,10 @@
 # .tool-versions or .nvmrc in the repo root.
 [tools]
 neovim = "latest"
+# Baseline bun so it's always available to bootstrap a project. A project can
+# still override with its own mise.toml. Pinned to major.minor -- patches come
+# along, majors don't, and `bun upgrade` no longer mutates it behind our back.
+bun = "1.3"
 
 [settings]
 # mise ignores .nvmrc / .node-version unless a tool opts in. Enabling node means

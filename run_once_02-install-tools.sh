@@ -9,10 +9,5 @@ else
     echo "[SKIP] Starship is already installed"
 fi
 
-# Install Bun
-if ! command -v bun &>/dev/null; then
-    echo "[INSTALL] Bun..."
-    curl -fsSL https://bun.sh/install | bash
-else
-    echo "[SKIP] Bun is already installed"
-fi
+# Bun is installed and pinned by mise (see private_dot_config/mise/config.toml),
+# not by bun.sh/install -- a curl-installed bun is unversioned and self-upgrading.

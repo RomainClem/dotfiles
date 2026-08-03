@@ -33,8 +33,8 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 
 | Script | What it does |
 |---|---|
-| `run_once_01-install-packages.sh` | Installs zsh, Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete |
-| `run_once_02-install-tools.sh` | Installs Starship, Bun |
+| `run_once_01-install-packages.sh` | Installs the C/C++ build toolchain (`build-essential`, `pkg-config`), zsh, Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete |
+| `run_once_02-install-tools.sh` | Installs Starship (Bun comes from mise) |
 | `run_onchange_04-install-mise.sh.tmpl` | Installs [mise](https://mise.jdx.dev/) and syncs the global tools declared in `mise/config.toml` (Neovim); re-runs whenever that config changes |
 
 ## Config Files Placed by Chezmoi
@@ -110,13 +110,14 @@ Otherwise, edits made outside the source directory must be `git push`ed and then
 ### ZSH (`dot_zshrc`)
 - Oh My Zsh with **git**, **zsh-autosuggestions**, **zsh-syntax-highlighting**, and **zsh-autocomplete** plugins
 - [mise](https://mise.jdx.dev/) activation for runtime/tool management
-- Bun runtime on PATH
+- Bun provided by mise (`~/.bun/bin` deliberately kept off `PATH` so it can't shadow it)
 - `WINDOWS_HOST_IP` extraction for WSL interop
 - ASP.NET dev certificate trust via `SSL_CERT_DIR`
 
 ### Runtime tools (`private_dot_config/mise/config.toml`)
-- **mise** manages versioned tools (replaces standalone NVM):
+- **mise** manages versioned tools (replaces standalone NVM and the curl-installed Bun):
   - `neovim = "latest"`
+  - `bun = "1.3"`
 - **Language runtimes are intentionally not pinned globally.** Node.js and friends
   are declared per project, so no machine-wide version can drift out from under a repo.
 - Add a global *tool* with `mise use -g <tool>@<version>`, or edit `config.toml`;
