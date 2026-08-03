@@ -10,5 +10,6 @@ winget-packages.json
 
 {{- if ne .chezmoi.os "linux" }}
 .zshrc
+.zshenv
 *.sh
 {{- end }}

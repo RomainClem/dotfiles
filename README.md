@@ -42,6 +42,7 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 | Source (this repo) | Target | OS |
 |---|---|---|
 | `dot_zshrc` | `~/.zshrc` | Linux |
+| `dot_zshenv` | `~/.zshenv` | Linux |
 | `private_dot_config/starship.toml` | `~/.config/starship.toml` | Both |
 | `private_dot_config/mise/config.toml` | `~/.config/mise/config.toml` | Linux |
 | `Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | Windows |

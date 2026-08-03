@@ -15,7 +15,11 @@ source $ZSH/oh-my-zsh.sh
 export WINDOWS_HOST_IP=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}')
 
 # export APIProxy__Target="https://${WINDOWS_HOST_IP}:7120"
-export SSL_CERT_DIR=$HOME/.aspnet/dev-certs/trust:/usr/lib/ssl/certs
+# Only trust the ASP.NET dev-cert store if it exists, otherwise tools that read
+# SSL_CERT_DIR (mise, curl) warn on every invocation.
+if [ -d "$HOME/.aspnet/dev-certs/trust" ]; then
+    export SSL_CERT_DIR=$HOME/.aspnet/dev-certs/trust:/usr/lib/ssl/certs
+fi
 
 # zsh options
 setopt hist_ignore_all_dups
@@ -26,6 +30,7 @@ eval "$(starship init zsh)"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 
 #Claude Code
 export CLAUDE_CODE_TMUX_TRUECOLOR=1
@@ -33,5 +38,7 @@ export CLAUDE_CODE_TMUX_TRUECOLOR=1
 # Local bin
 [ -s "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
-# mise (runtime & tool manager, e.g. neovim)
+# mise (runtime & tool manager, e.g. neovim, node)
+# Interactive shells get the real install dirs prepended ahead of the shims that
+# .zshenv puts on PATH. Non-interactive shells never read this file -- see .zshenv.
 command -v mise &>/dev/null && eval "$(mise activate zsh)"
