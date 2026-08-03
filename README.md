@@ -35,7 +35,7 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 |---|---|
 | `run_once_01-install-packages.sh` | Installs zsh, Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete |
 | `run_once_02-install-tools.sh` | Installs Starship, Bun |
-| `run_onchange_04-install-mise.sh.tmpl` | Installs [mise](https://mise.jdx.dev/) and syncs the tools declared in `mise/config.toml` (Node.js, Neovim); re-runs whenever that config changes |
+| `run_onchange_04-install-mise.sh.tmpl` | Installs [mise](https://mise.jdx.dev/) and syncs the global tools declared in `mise/config.toml` (Neovim); re-runs whenever that config changes |
 
 ## Config Files Placed by Chezmoi
 
@@ -109,16 +109,34 @@ Otherwise, edits made outside the source directory must be `git push`ed and then
 
 ### ZSH (`dot_zshrc`)
 - Oh My Zsh with **git**, **zsh-autosuggestions**, **zsh-syntax-highlighting**, and **zsh-autocomplete** plugins
-- [mise](https://mise.jdx.dev/) activation for runtime/tool management (Node.js, Neovim)
+- [mise](https://mise.jdx.dev/) activation for runtime/tool management
 - Bun runtime on PATH
 - `WINDOWS_HOST_IP` extraction for WSL interop
 - ASP.NET dev certificate trust via `SSL_CERT_DIR`
 
 ### Runtime tools (`private_dot_config/mise/config.toml`)
-- **mise** manages versioned tools in one place (replaces standalone NVM):
-  - `node = "lts"` — Node.js LTS
+- **mise** manages versioned tools (replaces standalone NVM):
   - `neovim = "latest"`
-- Add a tool with `mise use -g <tool>@<version>`, or edit `config.toml`; `chezmoi apply` re-runs the install script on any change
+- **Language runtimes are intentionally not pinned globally.** Node.js and friends
+  are declared per project, so no machine-wide version can drift out from under a repo.
+- Add a global *tool* with `mise use -g <tool>@<version>`, or edit `config.toml`;
+  `chezmoi apply` re-runs the install script on any change
+- Install global npm CLIs through mise, not `npm install -g` — mise keeps them in its
+  own directory so they survive node upgrades:
+  ```bash
+  mise use -g npm:prettier
+  ```
+
+#### Per-project runtimes
+Pin the runtime inside the repo, then `mise install` once:
+```bash
+cd ~/Workspace/Repos/my-project
+mise use node@24        # writes mise.toml in the repo -- commit it
+```
+`.nvmrc` and `.node-version` are also honoured (via
+`idiomatic_version_file_enable_tools`), so NVM-era and third-party repos work
+unchanged. `cd`-ing into the project puts the right node on `PATH`; outside a
+project there is no `node`, which is intended.
 
 ### Starship (`private_dot_config/starship.toml`)
 - Gruvbox Dark color palette

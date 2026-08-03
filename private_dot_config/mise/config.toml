@@ -1,3 +1,10 @@
+# Global tools only. Language runtimes are deliberately NOT pinned here --
+# node/python/etc. belong to the project that needs them, via a mise.toml,
+# .tool-versions or .nvmrc in the repo root.
 [tools]
 neovim = "latest"
-node = "lts"
+
+[settings]
+# mise ignores .nvmrc / .node-version unless a tool opts in. Enabling node means
+# cloned repos that ship one just work, with no mise.toml needed.
+idiomatic_version_file_enable_tools = ["node"]
