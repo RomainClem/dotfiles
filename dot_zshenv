@@ -1,6 +1,15 @@
 # Sourced by EVERY zsh invocation (interactive, non-interactive, login, scripts).
 # Keep this minimal -- it runs even for one-off `zsh -c` calls.
 
+# ~/.local/bin: real binaries live here (mise itself, claude). Added explicitly
+# because the installer-generated ~/.local/bin/env file that .zshrc sources is
+# not guaranteed to exist -- when it vanished, mise/claude dropped off PATH in
+# every zsh (bash was unaffected only because ~/.profile adds this dir).
+case ":$PATH:" in
+    *":$HOME/.local/bin:"*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 # mise shims: makes node/npm/npx/nvim resolve in non-interactive contexts that
 # never read .zshrc -- shell scripts, editor tasks, git hooks, `zsh -c`.
 # Interactive shells additionally get `mise activate` in .zshrc, which prepends
