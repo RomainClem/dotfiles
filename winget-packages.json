@@ -31,9 +31,6 @@
 					"PackageIdentifier" : "Microsoft.DotNet.SDK.10"
 				},
 				{
-					"PackageIdentifier" : "Microsoft.VisualStudioCode"
-				},
-				{
 					"PackageIdentifier" : "File-New-Project.EarTrumpet"
 				},
 				{
@@ -41,6 +38,9 @@
 				},
 				{
 					"PackageIdentifier" : "Microsoft.WSL"
+				},
+				{
+					"PackageIdentifier" : "ZedIndustries.Zed"
 				}
 			],
 			"SourceDetails" : 
