@@ -17,6 +17,23 @@ fpath=($HOME/.oh-my-zsh/custom/plugins/zsh-autocomplete/Completions $fpath)
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 source $HOME/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# zsh-autocomplete binds Tab to "insert first listed completion" by default;
+# rebind so Tab / Shift+Tab cycle through the listed completions instead.
+bindkey              '^I'         menu-complete
+bindkey "$terminfo[kcbt]" reverse-menu-complete
+# Enter right after Tab/Shift+Tab accepts the current completion instead of running
+# the line, like stock oh-my-zsh menu selection; a second Enter runs it. It keeps
+# the auto-added suffix (the trailing / on a directory) so the next Tab cycles
+# what's inside it. Otherwise Enter runs the line as usual.
+_accept-completion-or-line() {
+  if [[ $LASTWIDGET == (menu-complete|reverse-menu-complete) ]]; then
+    zle auto-suffix-retain
+  else
+    zle accept-line
+  fi
+}
+zle -N _accept-completion-or-line
+bindkey '^M' _accept-completion-or-line
 
 #Exports
 # Automatically set Windows host IP for WSL

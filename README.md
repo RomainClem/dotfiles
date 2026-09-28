@@ -110,6 +110,7 @@ Otherwise, edits made outside the source directory must be `git push`ed and then
 
 ### ZSH (`dot_zshrc`)
 - Oh My Zsh with **git**, **zsh-autosuggestions**, **zsh-syntax-highlighting**, and **zsh-autocomplete** plugins
+- Tab / Shift+Tab cycle completions; Enter right after Tab accepts the selection (a second Enter runs the line), so Tab then Enter then Tab walks into a directory like stock Oh My Zsh
 - [mise](https://mise.jdx.dev/) activation for runtime/tool management
 - Bun provided by mise (`~/.bun/bin` deliberately kept off `PATH` so it can't shadow it)
 - `WINDOWS_HOST_IP` extraction for WSL interop
