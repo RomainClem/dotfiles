@@ -14,7 +14,7 @@ chezmoi init --apply RomainClem
 ### WSL / Linux (fresh machine)
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply RomainClem
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply RomainClem
 ```
 
 That's it. Chezmoi will clone this repo, place all config files, and run the install scripts automatically.
