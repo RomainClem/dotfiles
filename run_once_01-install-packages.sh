@@ -34,7 +34,9 @@ fi
 # Install Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "[INSTALL] Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    # KEEP_ZSHRC: chezmoi has already placed the managed ~/.zshrc; without this the
+    # installer moves it to ~/.zshrc.pre-oh-my-zsh and writes its stock template.
+    KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 else
     echo "[SKIP] Oh My Zsh is already installed"
 fi
