@@ -63,7 +63,12 @@ fi
 # do it on the first interactive shell after each WSL restart. The guard needs -f
 # (comm is capped at 15 chars, "gnome-keyring-daemon" is 20, so -x never matches)
 # and the [g] bracket so the pattern doesn't match this shell's own command line.
-if [[ -o interactive ]] && ! pgrep -u "$USER" -f '[g]nome-keyring-daemon' >/dev/null; then
+# `command -v` first: on a machine without gnome-keyring installed the pgrep can
+# never match, so without it every interactive shell would stop for a password
+# prompt and then fail on the missing binary.
+if [[ -o interactive ]] \
+    && command -v gnome-keyring-daemon >/dev/null \
+    && ! pgrep -u "$USER" -f '[g]nome-keyring-daemon' >/dev/null; then
     read -rs "pw?Unlock keyring: "; echo
     printf '%s' "$pw" | gnome-keyring-daemon --unlock --components=secrets
     unset pw
