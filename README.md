@@ -25,9 +25,10 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 
 | Script | What it does |
 |---|---|
-| `run_once_01-install-packages.ps1` | Imports all apps from `winget-packages.json` via `winget import` |
+| `run_once_01-install-packages.ps1.tmpl` | Imports all apps from `winget-packages.json` (read from the source dir) via `winget import` |
 | `run_once_02-install-fonts.ps1` | Installs FiraCode Nerd Font and Google Sans Code from GitHub |
-| `run_once_03-install-powershell-modules.ps1` | Installs PSReadLine, Terminal-Icons, PendingReboot |
+| `run_once_03-install-powershell-modules.ps1` | Installs PSReadLine, Terminal-Icons, PendingReboot (hands over to pwsh when installed, so modules land where pwsh looks) |
+| `run_once_after_05-redirect-powershell-profile.ps1` | When Documents is redirected (e.g. by OneDrive), writes a `$PROFILE` stub that dot-sources the managed profile |
 
 ### Linux / WSL (`*.sh` scripts)
 
