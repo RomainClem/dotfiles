@@ -7,8 +7,16 @@ alias wi="cd ~/WorkSpace/Repos/WebInterface"
 ZSH_THEME=""
 
 #Plugins
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
+# zsh-autocomplete cannot live in plugins=(): oh-my-zsh puts only a plugin's ROOT
+# on fpath, runs compinit, and sources plugin.zsh last -- but the _autocomplete__*
+# helpers sit in the plugin's Completions/ subdir, which plugin.zsh adds to fpath
+# only at that final step, long after compinit stopped looking. The result is
+# "command not found: _autocomplete__unambiguous" on every Tab. So put Completions/
+# on fpath ourselves (before omz's compinit sees it) and source the plugin by hand.
+fpath=($HOME/.oh-my-zsh/custom/plugins/zsh-autocomplete/Completions $fpath)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
+source $HOME/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 #Exports
 # Automatically set Windows host IP for WSL

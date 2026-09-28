@@ -1,6 +1,11 @@
 # Sourced by EVERY zsh invocation (interactive, non-interactive, login, scripts).
 # Keep this minimal -- it runs even for one-off `zsh -c` calls.
 
+# Ubuntu's /etc/zsh/zshrc runs its own compinit before ~/.zshrc is read. That
+# second, earlier completion init fights zsh-autocomplete, which wants to own the
+# completion system; the plugin's README asks Ubuntu users to switch it off.
+skip_global_compinit=1
+
 # ~/.local/bin: real binaries live here (mise itself, claude). Added explicitly
 # because the installer-generated ~/.local/bin/env file that .zshrc sources is
 # not guaranteed to exist -- when it vanished, mise/claude dropped off PATH in
