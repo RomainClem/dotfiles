@@ -7,33 +7,16 @@ alias wi="cd ~/WorkSpace/Repos/WebInterface"
 ZSH_THEME=""
 
 #Plugins
-# zsh-autocomplete cannot live in plugins=(): oh-my-zsh puts only a plugin's ROOT
-# on fpath, runs compinit, and sources plugin.zsh last -- but the _autocomplete__*
-# helpers sit in the plugin's Completions/ subdir, which plugin.zsh adds to fpath
-# only at that final step, long after compinit stopped looking. The result is
-# "command not found: _autocomplete__unambiguous" on every Tab. So put Completions/
-# on fpath ourselves (before omz's compinit sees it) and source the plugin by hand.
-fpath=($HOME/.oh-my-zsh/custom/plugins/zsh-autocomplete/Completions $fpath)
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+# zsh-autocomplete stays inside plugins=(): oh-my-zsh sources it before
+# zsh-syntax-highlighting, which is the load order both plugins require, and
+# zsh-autocomplete runs its own compinit from a precmd hook -- after .zshrc has
+# finished -- so its Completions/ helpers get registered without any manual
+# fpath juggling. Sourcing it by hand after oh-my-zsh.sh puts it last instead,
+# which breaks the interplay with autosuggestions and syntax highlighting.
+# Tab and Enter are left at zsh-autocomplete's own defaults on purpose:
+# Tab inserts the unambiguous prefix, Enter runs the line.
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
 source $ZSH/oh-my-zsh.sh
-source $HOME/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-# zsh-autocomplete binds Tab to "insert first listed completion" by default;
-# rebind so Tab / Shift+Tab cycle through the listed completions instead.
-bindkey              '^I'         menu-complete
-bindkey "$terminfo[kcbt]" reverse-menu-complete
-# Enter right after Tab/Shift+Tab accepts the current completion instead of running
-# the line, like stock oh-my-zsh menu selection; a second Enter runs it. It keeps
-# the auto-added suffix (the trailing / on a directory) so the next Tab cycles
-# what's inside it. Otherwise Enter runs the line as usual.
-_accept-completion-or-line() {
-  if [[ $LASTWIDGET == (menu-complete|reverse-menu-complete) ]]; then
-    zle auto-suffix-retain
-  else
-    zle accept-line
-  fi
-}
-zle -N _accept-completion-or-line
-bindkey '^M' _accept-completion-or-line
 
 #Exports
 # Automatically set Windows host IP for WSL
