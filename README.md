@@ -46,8 +46,10 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 | `dot_zshenv` | `~/.zshenv` | Linux |
 | `private_dot_config/starship.toml` | `~/.config/starship.toml` | Both |
 | `private_dot_config/mise/config.toml` | `~/.config/mise/config.toml` | Linux |
+| `dot_claude/settings.json` | `~/.claude/settings.json` (Claude Code) | Linux |
 | `Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | Windows |
 | `AppData/.../LocalState/settings.json` | Windows Terminal settings | Windows |
+| `AppData/Roaming/Zed/` | Zed settings, keymap and `AGENTS.md` | Windows |
 
 ## Managing Your Dotfiles
 
@@ -109,8 +111,10 @@ Otherwise, edits made outside the source directory must be `git push`ed and then
 ## What's Configured
 
 ### ZSH (`dot_zshrc`)
-- Oh My Zsh with **git**, **zsh-autosuggestions**, **zsh-syntax-highlighting**, and **zsh-autocomplete** plugins
-- Completion keys are left at zsh-autocomplete's defaults: Tab inserts the unambiguous prefix, Enter runs the line. `zsh-autocomplete` must stay *inside* `plugins=()` so Oh My Zsh sources it before `zsh-syntax-highlighting`; sourcing it by hand afterwards breaks the interplay between the three plugins
+- Oh My Zsh with **git**, **zsh-syntax-highlighting**, and **zsh-autocomplete** plugins
+- **zsh-autosuggestions** is deliberately not loaded: zsh-autocomplete's live list below the prompt replaces it (Ctrl+R switches that list to history matches)
+- Completion keys are left at zsh-autocomplete's defaults: Tab inserts the first listed completion, Enter runs the line. `zsh-autocomplete` must stay *inside* `plugins=()` so Oh My Zsh sources it before `zsh-syntax-highlighting`; sourcing it by hand afterwards breaks that load order
+- zsh-autocomplete's `Completions/` helpers and its `zasync` cache dir are put on `fpath` before Oh My Zsh loads, so Tab keeps working after the completion dump is regenerated
 - [mise](https://mise.jdx.dev/) activation for runtime/tool management
 - Bun provided by mise (`~/.bun/bin` deliberately kept off `PATH` so it can't shadow it)
 - `WINDOWS_HOST_IP` extraction for WSL interop
@@ -154,7 +158,7 @@ project there is no `node`, which is intended.
 - Starship prompt
 
 ### Windows Terminal (`settings.json`)
-- Default profile: PowerShell Core
+- Default profile: Ubuntu (WSL), starting in `~`
 - Font: FiraCode Nerd Font Mono
 - 70% opacity with acrylic transparency
 - Solarized Light (modified) color scheme

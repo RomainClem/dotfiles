@@ -8,14 +8,26 @@ ZSH_THEME=""
 
 #Plugins
 # zsh-autocomplete stays inside plugins=(): oh-my-zsh sources it before
-# zsh-syntax-highlighting, which is the load order both plugins require, and
-# zsh-autocomplete runs its own compinit from a precmd hook -- after .zshrc has
-# finished -- so its Completions/ helpers get registered without any manual
-# fpath juggling. Sourcing it by hand after oh-my-zsh.sh puts it last instead,
-# which breaks the interplay with autosuggestions and syntax highlighting.
+# zsh-syntax-highlighting, which is the load order both plugins require.
+# Sourcing it by hand after oh-my-zsh.sh puts it last instead, which breaks the
+# interplay with syntax highlighting.
+# Its Completions/ helpers (_autocomplete__unambiguous etc.) must be on fpath
+# BEFORE oh-my-zsh.sh: OMZ runs compinit before sourcing any plugin, and
+# zsh-autocomplete only redoes compinit when its files are newer than the dump.
+# Without the fpath line below, every time OMZ regenerates ~/.zcompdump-* the
+# helpers drop out and Tab prints "command not found: _autocomplete__unambiguous".
 # Tab and Enter are left at zsh-autocomplete's own defaults on purpose:
-# Tab inserts the unambiguous prefix, Enter runs the line.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
+# Tab inserts the first listed completion, Enter runs the line.
+# zsh-autosuggestions is deliberately NOT loaded: zsh-autocomplete's live list
+# below the prompt replaces it (Ctrl+R toggles that list to history matches).
+plugins=(git zsh-syntax-highlighting zsh-autocomplete)
+fpath=($ZSH/custom/plugins/zsh-autocomplete/Completions $fpath)
+# zasync (the async helper zsh-autocomplete clones into ~/.cache/zsh/zasync)
+# must be on fpath too. Otherwise the plugin's first `autoload +X zasync` fails,
+# and that failed attempt leaves zasync a no-op stub even after the plugin
+# re-autoloads it by absolute path -- so the live list below the prompt never
+# appears and Tab just inserts the first match.
+fpath=(${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zasync $fpath)
 source $ZSH/oh-my-zsh.sh
 
 #Exports

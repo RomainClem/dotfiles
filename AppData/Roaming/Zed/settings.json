@@ -63,7 +63,7 @@
         "font_family": "FiraCode Nerd Font Mono"
     },
     "icon_theme": {
-        "mode": "light",
+        "mode": "system",
         "light": "Catppuccin Latte",
         "dark": "Catppuccin Latte"
     },
@@ -135,7 +135,7 @@
     "ui_font_size": 16,
     "buffer_font_size": 15,
     "theme": {
-        "mode": "light",
+        "mode": "system",
         "light": "Catppuccin Latte",
         "dark": "Ayu Dark"
     },
