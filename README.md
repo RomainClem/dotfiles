@@ -37,6 +37,7 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 | `run_once_01-install-packages.sh` | Installs the C/C++ build toolchain (`build-essential`, `pkg-config`), zsh, Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, zsh-autocomplete |
 | `run_once_02-install-tools.sh` | Installs Starship (Bun comes from mise) |
 | `run_onchange_04-install-mise.sh.tmpl` | Installs [mise](https://mise.jdx.dev/) and syncs the global tools declared in `mise/config.toml` (Neovim); re-runs whenever that config changes |
+| `run_onchange_after_06-install-tmux-plugins.sh.tmpl` | Installs tmux and [TPM](https://github.com/tmux-plugins/tpm), then the plugins listed in `~/.tmux.conf`; re-runs whenever that file changes |
 
 ## Config Files Placed by Chezmoi
 
@@ -44,6 +45,7 @@ That's it. Chezmoi will clone this repo, place all config files, and run the ins
 |---|---|---|
 | `dot_zshrc` | `~/.zshrc` | Linux |
 | `dot_zshenv` | `~/.zshenv` | Linux |
+| `dot_tmux.conf` | `~/.tmux.conf` | Linux |
 | `private_dot_config/starship.toml` | `~/.config/starship.toml` | Both |
 | `private_dot_config/mise/config.toml` | `~/.config/mise/config.toml` | Linux |
 | `dot_claude/settings.json` | `~/.claude/settings.json` (Claude Code) | Linux |
@@ -119,6 +121,13 @@ Otherwise, edits made outside the source directory must be `git push`ed and then
 - Bun provided by mise (`~/.bun/bin` deliberately kept off `PATH` so it can't shadow it)
 - `WINDOWS_HOST_IP` extraction for WSL interop
 - ASP.NET dev certificate trust via `SSL_CERT_DIR`
+
+### tmux (`dot_tmux.conf`)
+- Plugins managed by [TPM](https://github.com/tmux-plugins/tpm) in `~/.tmux/plugins/`
+- [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect): `prefix + Ctrl-s` saves sessions, windows, panes (with their contents) and Neovim sessions; `prefix + Ctrl-r` restores them
+- [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum): saves automatically every 15 minutes and restores the last save when the tmux server starts
+- Saved sessions live in `~/.local/share/tmux/resurrect/` and are per machine (not synced)
+- Add a plugin with another `set -g @plugin '...'` line; `chezmoi apply` installs it
 
 ### Runtime tools (`private_dot_config/mise/config.toml`)
 - **mise** manages versioned tools (replaces standalone NVM and the curl-installed Bun):

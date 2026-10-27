@@ -11,6 +11,7 @@ winget-packages.json
 {{- if ne .chezmoi.os "linux" }}
 .zshrc
 .zshenv
+.tmux.conf
 .claude
 *.sh
 {{- end }}

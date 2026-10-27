@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+# Runs after ~/.tmux.conf is placed, and again whenever it changes (e.g. a new plugin).
+# tmux.conf hash: {{ include "dot_tmux.conf" | sha256sum }}
+
+# Install tmux
+if ! command -v tmux &>/dev/null; then
+    echo "[INSTALL] tmux..."
+    sudo apt update
+    sudo apt install -y tmux
+else
+    echo "[SKIP] tmux is already installed"
+fi
+
+# Install TPM (tmux plugin manager)
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [ ! -d "$TPM_DIR" ]; then
+    echo "[INSTALL] TPM..."
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+else
+    echo "[SKIP] TPM is already installed"
+fi
+
+# Install every plugin listed in ~/.tmux.conf (tmux-resurrect, tmux-continuum, ...)
+echo "[INSTALL] Syncing tmux plugins..."
+"$TPM_DIR/bin/install_plugins"
